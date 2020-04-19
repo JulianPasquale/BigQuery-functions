@@ -1,100 +1,44 @@
-var express = require('express')
-var router  = express.Router()
+var express        = require('express')
+const { BigQuery } = require('@google-cloud/bigquery')
+var router         = express.Router()
 
 require('dotenv').config()
-const BigQuery = require('@google-cloud/bigquery')
 
 /* GET users listing. */
-router.get('/:query_id', function(req, res, next) {
-  queryStackOverflow('nodejs-bigquery',req.params.query_id)
-  .then((result) => res.send(result))
+router.get('/', function(req, res, next) {
+  query().then((result) => res.send(result))
 })
 
-function queryStackOverflow(projectId,query_id) {
+async function query() {
+  // Queries the U.S. given names dataset for the state of Texas.
 
-  // Creates a client
-  const bigquery = new BigQuery({
-    projectId: projectId,
-  })
+  const bigquery = new BigQuery()
 
-  var sqlQuery
+  const query = `SELECT name
+    FROM \`bigquery-public-data.usa_names.usa_1910_2013\`
+    WHERE state = 'TX'
+    LIMIT 100`
 
-  console.log('query_id:',query_id)
-
-  switch(query_id){
-    case '1':
-      // The SQL query to run
-      sqlQuery = `SELECT
-      id,
-      CONCAT(
-        'https://stackoverflow.com/questions/',
-        CAST(id as STRING)) as url,
-      view_count,
-      title,
-      creation_date,
-      answer_count
-      FROM \`bigquery-public-data.stackoverflow.posts_questions\`
-      ORDER BY view_count DESC
-      LIMIT 10`
-      break
-    case '2':
-      // The SQL query to run
-      sqlQuery = `SELECT
-      id,
-      CONCAT(
-        'https://stackoverflow.com/questions/',
-        CAST(id as STRING)) as url,
-      view_count,
-      title,
-      creation_date,
-      answer_count
-      FROM \`bigquery-public-data.stackoverflow.posts_questions\`
-      ORDER BY creation_date DESC
-      LIMIT 10`
-      break
-    case '3':
-      // The SQL query to run
-      sqlQuery = `SELECT
-      id,
-      CONCAT(
-        'https://stackoverflow.com/questions/',
-        CAST(id as STRING)) as url,
-      view_count,
-      title,
-      creation_date,
-      answer_count
-      FROM \`bigquery-public-data.stackoverflow.posts_questions\`
-      ORDER BY answer_count DESC
-      LIMIT 10`
-      break
-  }
-  
-
-  // Query options list: https://cloud.google.com/bigquery/docs/reference/v2/jobs/query
+  // For all options, see https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query
   const options = {
-    query: sqlQuery,
-    useLegacySql: false, // Use standard SQL syntax for queries.
+    query: query,
+    // Location must match that of the dataset(s) referenced in the query.
+    location: 'US',
   }
 
-  // Runs the query
-  return bigquery
-    .query(options)
-    .then(results => {
-      const rows = results[0]
-      return rows
-    })
-    .catch(err => {
-      console.error('ERROR:', err)
-    })
-}
+  // Run the query as a job
+  const [job] = await bigquery.createQueryJob(options)
+  console.log(`Job ${job.id} started.`)
 
-function printResult(rows) {
-  console.log('Query Results:')
-  rows.forEach(function (row) {
-    let url = row['url']
-    let viewCount = row['view_count']
-    console.log(`url: ${url}, ${viewCount} views`)
-  })
+  // Wait for the query to finish
+  const [rows] = await job.getQueryResults()
+
+  // Print the results
+  console.log('Rows:')
+  rows.forEach(row => console.log(row))
+
+  return rows
 }
+// [END bigquery_query]
 
 module.exports = router
