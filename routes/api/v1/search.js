@@ -6,10 +6,16 @@ require('dotenv').config()
 
 const bigquery = new BigQuery()
 
-router.get('/', function(req, res, next) {
+router.get('/search', function(_req, res, next) {
   call()
-    .then((data) => { res.locals.data = data; next()})
-    .catch(next)
+    .then(data => {
+      res.locals.data = data
+      next()
+    })
+    .catch(err => {
+      res.locals.notification = 'Error al conectarse con BigQuery'
+      next(err)
+    })
 })
 
 call = async () => (

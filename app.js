@@ -19,7 +19,9 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
-app.use('/api/v1/search', searchRouter)
+
+// API routes
+app.use('/api/v1', searchRouter)
 
 app.use(success)
 app.use(error)
