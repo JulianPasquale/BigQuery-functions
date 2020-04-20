@@ -1,12 +1,16 @@
-var express      = require('express')
-var path         = require('path')
-var cookieParser = require('cookie-parser')
-var logger       = require('morgan')
+const express      = require('express')
+const path         = require('path')
+const cookieParser = require('cookie-parser')
+const logger       = require('morgan')
 
-var indexRouter  = require('./routes/index')
-var searchRouter = require('./routes/search')
+const indexRouter  = require('./routes/index')
+const searchRouter = require('./routes/api/v1/search')
 
-var app = express()
+// Formatters
+const success = require('./middlewares/response/success_parser')
+const error   = require('./middlewares/response/error_parser')
+
+const app = express()
 
 app.use(logger('dev'))
 app.use(express.json())
@@ -15,6 +19,9 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
-app.use('/search', searchRouter)
+app.use('/api/v1/search', searchRouter)
+
+app.use(success)
+app.use(error)
 
 module.exports = app
