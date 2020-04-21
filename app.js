@@ -1,14 +1,12 @@
+require('dotenv').config()
+
 const express      = require('express')
 const path         = require('path')
 const cookieParser = require('cookie-parser')
 const logger       = require('morgan')
 
-const indexRouter  = require('./routes/index')
-const searchRouter = require('./routes/api/v1/search')
-
-// Formatters
-const success = require('./middlewares/response/success_parser')
-const error   = require('./middlewares/response/error_parser')
+const indexRouter = require('./routes/index')
+const apiRouter   = require('./api/v1/router')
 
 const app = express()
 
@@ -21,9 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', indexRouter)
 
 // API routes
-app.use('/api/v1', searchRouter)
-
-app.use(success)
-app.use(error)
+app.use('/api/v1', apiRouter)
 
 module.exports = app
