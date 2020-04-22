@@ -3,8 +3,9 @@ const bigquery     = new BigQuery()
 
 module.exports = (_req, res, next) => {
   call(next)
-    .then(data => {
-      res.locals.data = data
+    .then(response => {
+      res.locals.data     = response.data
+      res.locals.metadata = response.metadata
       next()
     })
     .catch(err => {
@@ -31,10 +32,19 @@ results = (job, next) => (
   job.getQueryResults(
     {
       maxResults: 10,
-      pageToken:  'BH3WSKU7OEAQAAASA4EAAEEAQCAAKGQEBAKBACRAWCXBK==='
+      pageToken:  'BGXNRONDOEAQAAASA4EAAEEAQCAAKGQEBAFBACRAWCXBK==='
     }
   ).then((data) => {
     console.log(data)
-    return data[0]
+
+    return {
+      data: data[0],
+      metadata: {
+        pagination: {
+          pageToken: data[1].pageToken,
+          totalRows: data[2].totalRows
+        }
+      }
+    }
   }).catch(next)
 )

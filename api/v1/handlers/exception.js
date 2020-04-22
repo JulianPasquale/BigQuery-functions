@@ -11,7 +11,11 @@ module.exports =  (err, req, res, _next) => {
     {
       notification: res.locals.notification || 'Error inesperado!',
       message:      err.message,
-      metadata:     req.body
+      metadata:     {
+        ...res.locals.metadata,
+        params: req.params,
+        body:   req.body
+      }
     }
   )
 }
