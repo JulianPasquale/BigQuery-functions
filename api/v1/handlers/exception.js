@@ -7,7 +7,7 @@ module.exports =  (err, req, res, _next) => {
   }
 
   res.status(statusCode)
-  res.send(
+  res.json(
     {
       notification: res.locals.notification || 'Error inesperado!',
       message:      err.message,
