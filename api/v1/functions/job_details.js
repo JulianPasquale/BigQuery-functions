@@ -1,12 +1,7 @@
-module.exports = (req, res, next) => {
-  const {BigQuery} = require('@google-cloud/bigquery')
-  const bigquery = new BigQuery()
+const getJob = require('../big_query/get_job')
 
-  jobId = req.params.id
-
-  const job = bigquery.job(jobId)
-
-  job.get()
+module.exports = (req, res, next) => (
+  getJob(req.params.id)
     .then((data) => {
       const { metadata, ...dataResult } = data[0]
 
@@ -15,4 +10,4 @@ module.exports = (req, res, next) => {
       next()
     })
     .catch(next)
-}
+)

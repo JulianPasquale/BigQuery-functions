@@ -16,6 +16,8 @@ const job_config = require('./middlewares/job_config')
 const router = Router()
 
 router.get('/repositories', job_config, repositories, success)
+
+// Only debug purpose
 router.get('/job/:id', job_details, success)
 router.get('/err', (req, res, next) => next(next(new Error('custom'))))
 
