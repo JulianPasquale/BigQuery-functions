@@ -1,4 +1,4 @@
-module.exports =  (err, req, res, _next) => {
+module.exports = (err, req, res, _next) => {
   let statusCode = 500
 
   if (res.statusCode && res.statusCode !== 200) {
