@@ -6,7 +6,8 @@ const cookieParser = require('cookie-parser')
 const logger       = require('morgan')
 
 const indexRouter = require('./routes/index')
-const apiRouter   = require('./api/v1/router')
+const apiV1Router = require('./api/v1/router')
+const apiV2Router = require('./api/v2/router')
 
 const app = express()
 
@@ -19,6 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', indexRouter)
 
 // API routes
-app.use('/api/v1', apiRouter)
+app.use('/api/v1', apiV1Router)
+app.use('/api/v2', apiV2Router)
 
 module.exports = app
