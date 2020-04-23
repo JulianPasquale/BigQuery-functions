@@ -1,4 +1,4 @@
-const getJob = require('../big_query/get_job')
+const getJob = require('../../../big_query/get_job')
 
 module.exports = (req, res, next) => (
   getJob(req.params.id)
