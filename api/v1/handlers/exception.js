@@ -13,8 +13,8 @@ module.exports = (err, req, res, _next) => {
       message:      err.message,
       metadata:     {
         ...res.locals.metadata,
-        params: req.params,
-        body:   req.body
+        query:   req.query,
+        payload: req.body
       }
     }
   )

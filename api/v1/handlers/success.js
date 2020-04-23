@@ -4,8 +4,8 @@ module.exports = (req, res, _next) => (
       data:     res.locals.data,
       metadata: {
         ...res.locals.metadata,
-        params: req.params,
-        body:   req.body
+        query:   req.query,
+        payload: req.body
       }
     }
   )

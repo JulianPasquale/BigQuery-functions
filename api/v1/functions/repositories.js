@@ -7,6 +7,7 @@ module.exports = (_req, res, next) => {
     .then(response => {
       res.locals.data     = response.data
       res.locals.metadata = response.metadata
+
       next()
     })
     .catch(err => {
