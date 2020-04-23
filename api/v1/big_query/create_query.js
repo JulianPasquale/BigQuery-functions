@@ -1,17 +1,15 @@
 const { BigQuery } = require('@google-cloud/bigquery')
 
-module.exports = async (sqlQuery, paginationConfig) => (
+module.exports = async (sqlQuery, paginationConfig, next) => (
   new BigQuery().createQueryJob(sqlQuery)
     .then((data) => {
-      const job         = data[0]
-      const apiResponse = data[1]
-      console.log(apiResponse)
+      const job = data[0]
 
       console.log(`Job ${job.id} started.`)
-      
+
       return results(job, paginationConfig, next)
     })
-    // .catch(next)
+    .catch(next)
 )
 
 const results = (job, paginationConfig, next) => (
@@ -27,5 +25,5 @@ const results = (job, paginationConfig, next) => (
         }
       }
     ))
-    // .catch(next)
+    .catch(next)
 )

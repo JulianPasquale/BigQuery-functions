@@ -1,7 +1,7 @@
 module.exports = (req, res, next) => {
   res.locals.paginationConfig = {
-    maxResults: req.params.maxResults,
-    pageToken:  req.params.pageToken
+    maxResults: parseInt(req.query.maxResults) || 10,
+    pageToken:  req.query.pageToken
   }
 
   next()
