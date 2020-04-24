@@ -15,12 +15,12 @@ const not_found = require('./handlers/not_found')
 const router = Router()
 
 // router.get('/repositories', job_config, repositories, success)
-router.ws('/echo', function(ws, req) {
+router.ws('/echo', (ws, req) => {
   ws.send(JSON.stringify(['mundo']))
 
-  ws.on('message', (msg) =>
-    ws.send('not yet')
-  )
+  setTimeout(() => ws.send(JSON.stringify(Date.now())), 100)
+
+  ws.on('message', (msg) => ws.send('not yet'))
 })
 
 // Only debug purpose

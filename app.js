@@ -5,19 +5,13 @@ const path         = require('path')
 const cookieParser = require('cookie-parser')
 const logger       = require('morgan')
 
-const app     = express()
-var expressWs = require('express-ws')(app)
+const app = express()
+require('express-ws')(app)
 
 // Global routers.
 const indexRouter = require('./routes/index')
 const apiV1Router = require('./api/v1/router')
 const apiV2Router = require('./api/v2/router')
-
-// Allow v2 router to use web sockets.
-expressWs.applyTo(apiV2Router)
-
-// Sets up websockets in global router.
-// const expressWs = require('express-ws')(app)
 
 // Middlewares.
 app.use(logger('dev'))
