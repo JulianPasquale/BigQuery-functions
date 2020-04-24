@@ -16,12 +16,12 @@ const router = Router()
 
 // router.get('/repositories', job_config, repositories, success)
 router.ws('/echo', function(ws, req) {
-  ws.send(['mundo'])
+  ws.send(JSON.stringify(['mundo']))
 
   ws.on('message', (msg) => {
     // Broadcast msg from 1 to all clients.
     wss.getWss().clients.forEach((client) => 
-      client.send(msg.data)
+      client.send(JSON.stringify(msg.data))
     )
   })
 })
