@@ -13,6 +13,7 @@ const indexRouter = require('./routes/index')
 const apiV1Router = require('./api/v1/router')
 const apiV2Router = require('./api/v2/router')
 
+// Allow v2 router to use web sockets.
 expressWs.applyTo(apiV2Router)
 
 // Sets up websockets in global router.
@@ -30,24 +31,5 @@ app.use('/', indexRouter)
 // API routes.
 app.use('/api/v1', apiV1Router)
 app.use('/api/v2', apiV2Router)
-
-
-// expressWs.getWss().on('connection', function(ws) {
-//   console.log('connection open');
-// });
-
-// app.get('/api/v2/echo', function(req, res, next){
-//   console.log('get route', req.testing);
-//   res.end();
-// });
-
-// app.ws('/api/v2/echo', function(ws, req) {
-//   ws.on('message', function(msg) {
-//     console.log(msg);
-//     res.send('hola')
-//   });
-//     res.send('hola')
-//     console.log('socket', req.testing);
-// });
 
 module.exports = app
