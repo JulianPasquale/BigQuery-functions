@@ -1,7 +1,7 @@
 let { Router } = require('express')
 
 // Functions
-const repositories = require('./functions/repositories')
+const samples = require('./functions/samples')
 
 // Handlers.
 // const success   = require('./handlers/success')
@@ -14,14 +14,7 @@ const not_found = require('./handlers/not_found')
 // Routes.
 const router = Router()
 
-// router.get('/repositories', job_config, repositories, success)
-router.ws('/echo', (ws, req) => {
-  ws.send(JSON.stringify(['mundo']))
-
-  setTimeout(() => ws.send(JSON.stringify(Date.now())), 100)
-
-  ws.on('message', (msg) => ws.send('not yet'))
-})
+router.ws('/samples', samples)
 
 // Only debug purpose
 router.get('/err', (req, res, next) => next(next(new Error('custom'))))
