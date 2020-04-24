@@ -18,12 +18,9 @@ const router = Router()
 router.ws('/echo', function(ws, req) {
   ws.send(JSON.stringify(['mundo']))
 
-  ws.on('message', (msg) => {
-    // Broadcast msg from 1 to all clients.
-    wss.getWss().clients.forEach((client) => 
-      client.send(JSON.stringify(msg.data))
-    )
-  })
+  ws.on('message', (msg) =>
+    ws.send('not yet')
+  )
 })
 
 // Only debug purpose
