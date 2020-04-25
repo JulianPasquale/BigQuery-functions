@@ -3,13 +3,13 @@
  */
 const call = require('../../../big_query/create_query')
 
+const sqlQuery = 'SELECT repo_name, watch_count FROM `bigquery-public-data.github_repos.sample_repos`'
+
 /**
- * Generates SQL query and call create_query function.
+ * Calls create_query function with sqlQuery.
  * Then sets data and metadata to be formated and returned.
  */
 module.exports = (_req, res, next) => {
-  const sqlQuery = 'SELECT repo_name, watch_count FROM `bigquery-public-data.github_repos.sample_repos`'
-
   call(sqlQuery, res.locals.paginationConfig, next)
     .then(response => {
       res.locals.data     = response.data

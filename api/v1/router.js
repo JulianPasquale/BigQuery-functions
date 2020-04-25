@@ -9,8 +9,9 @@ const router     = Router()
  * If functions handle a regular http request, it will receive req, res and next parameters.
  * For additional documentation check here: https://expressjs.com/en/guide/routing.html
  */
-const repositories = require('./functions/repositories')
-const job_details  = require('./functions/job_details')
+const repositories    = require('./functions/repositories')
+const vulnerable_rank = require('./functions/vulnerable_rank')
+const job_details     = require('./functions/job_details')
 
 /**
  * Handlers functions for different status.
@@ -35,6 +36,7 @@ const job_config = require('./middlewares/job_config')
  * First parameter refers to the scoped route, and the next ones are middlewares that will be executed and set locals for use in next middlewares.
  */
 router.get('/repositories', job_config, repositories, success)
+router.get('/vulnerable_ranking', job_config, vulnerable_rank, success)
 
 /**
  * Only debug purpose for test handlers format.
