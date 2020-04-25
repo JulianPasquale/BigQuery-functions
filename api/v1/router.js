@@ -40,9 +40,9 @@ router.get('/vulnerable_ranking', job_config, vulnerable_rank, success)
 
 /**
  * Only debug purpose for test handlers format.
+ * You can see all executed jobs data, providing jobs id logged in console. Including sql query and parameters
  */
 router.get('/job/:id', job_details, success)
-router.get('/err', (req, res, next) => next(next(new Error('custom'))))
 
 /** 
  * Middleware to handle http 404 errors.

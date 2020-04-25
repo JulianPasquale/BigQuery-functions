@@ -9,7 +9,7 @@ const bigquery     = new BigQuery()
  * https://googleapis.dev/nodejs/bigquery/latest/BigQuery.html#createQueryJob
  */
 
-module.exports = async (sqlQuery, paginationConfig, next) => (
+module.exports = (sqlQuery, paginationConfig, next) => (
   /**
    * createQueryJob method returns a Promise.
    * In case of error, expection will be passed to default error handler.
