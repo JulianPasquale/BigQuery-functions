@@ -1,28 +1,25 @@
+/**
+ * Gets router intance from express.
+ */
 let { Router } = require('express')
+const router   = Router()
 
-// Functions
-const samples = require('./functions/samples')
+/**
+ * Functions that works as handlers for a specific route request.
+ * If is a web socket route handler, it will receive two parameters: ws and req
+ * express-ws documentation: https://github.com/HenningM/express-ws
+ * Create a new function and require it like this.
+ */
+const samples = require('./functions/repositories')
 
-// Handlers.
-// const success   = require('./handlers/success')
-const error     = require('./handlers/exception')
-const not_found = require('./handlers/not_found')
-
-// Middlewares.
-// const job_config = require('./middlewares/job_config')
-
-// Routes.
-const router = Router()
-
+/**
+ * Defining routes for /api/v2 scope.
+ * To add a new route using web sockets you have to use ws router's method.
+ * First parameter refers to the expected path to handle, and the second is the function to execute on every request.
+ */
 router.ws('/samples', samples)
 
-// Only debug purpose
-router.get('/err', (req, res, next) => next(next(new Error('custom'))))
-
-// Handles 404.
-router.use(not_found)
-
-// Handles all errors.
-router.use(error)
-
+/**
+ * Exports router to app.
+ */
 module.exports = router
