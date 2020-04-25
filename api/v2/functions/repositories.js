@@ -1,3 +1,6 @@
+/**
+ * Requires function for query streams creation.
+ */
 const call = require('../../../big_query/crete_query_stream')
 
 /**
