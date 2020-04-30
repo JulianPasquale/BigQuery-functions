@@ -40,8 +40,9 @@ const results = (job, paginationConfig, next) => (
         data:     data[0],
         metadata: {
           pagination: {
-            pageToken: (data[1] || {}).pageToken,
-            totalRows: data[2].totalRows
+            pageToken:  (data[1] || {}).pageToken,
+            totalRows:  parseInt(data[2].totalRows),
+            maxResults: paginationConfig.maxResults
           }
         }
       }

@@ -11,6 +11,7 @@ const router     = Router()
  */
 const repositories    = require('./functions/repositories')
 const vulnerable_rank = require('./functions/vulnerable_rank')
+const selfanswer      = require('./functions/selfanswer')
 const job_details     = require('./functions/job_details')
 
 /**
@@ -35,8 +36,10 @@ const job_config = require('./middlewares/job_config')
  * Application routes, scoped to /api/v1 path.
  * First parameter refers to the scoped route, and the next ones are middlewares that will be executed and set locals for use in next middlewares.
  */
-router.get('/repositories', job_config, repositories, success)
-router.get('/vulnerable_ranking', job_config, vulnerable_rank, success)
+router.get('/github/repositories', job_config, repositories, success)
+router.get('/github/vulnerable_ranking', job_config, vulnerable_rank, success)
+
+router.get('/stackoverflow/selfanswer', job_config, selfanswer, success)
 
 /**
  * Only debug purpose for test handlers format.
