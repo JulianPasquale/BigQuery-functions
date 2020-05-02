@@ -56,30 +56,30 @@ module.exports = (req, res, next) => {
   }
 
   const sqlConfig = {
-      query:           sqlQuery,
-      parameterMode:   'NAMED',
-      useLegacySql:    false,
-      queryParameters: [
-        {
-          name:     'language',
-          parameterType: {
-            type: 'STRING'
-          },
-          parameterValue: {
-            value: language,
-          }
+    query:           sqlQuery,
+    parameterMode:   'NAMED',
+    useLegacySql:    false,
+    queryParameters: [
+      {
+        name:     'language',
+        parameterType: {
+          type: 'STRING'
         },
-        {
-          name:     'contains',
-          parameterType: {
-            type: 'STRING'
-          },
-          parameterValue: {
-            value: contains,
-          }
+        parameterValue: {
+          value: language,
         }
-      ]
-    }
+      },
+      {
+        name:     'contains',
+        parameterType: {
+          type: 'STRING'
+        },
+        parameterValue: {
+          value: contains,
+        }
+      }
+    ]
+  }
 
   call(sqlConfig, res.locals.paginationConfig, next)
     .then(response => {
