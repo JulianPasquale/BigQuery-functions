@@ -41,7 +41,7 @@ const results = (job, paginationConfig, next) => (
         metadata: {
           pagination: {
             pageToken:  (data[1] || {}).pageToken,
-            totalRows:  parseInt(data[2].totalRows),
+            totalRows:  parseInt(data[2].totalRows) || 0,
             maxResults: paginationConfig.maxResults
           }
         }
